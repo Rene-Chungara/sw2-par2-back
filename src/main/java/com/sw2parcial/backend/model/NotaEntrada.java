@@ -13,6 +13,7 @@ public class NotaEntrada {
 
     private LocalDate fecha;
 
+    @Column(name = "costo_total")
     private Float costoTotal;
 
     private String lote;

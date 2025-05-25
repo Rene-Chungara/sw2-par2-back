@@ -55,13 +55,20 @@ public class DetalleNotaEntradaController {
     }
 
     @PutMapping("/{id}")
-    public DetalleNotaEntrada actualizar(@PathVariable Integer id, @RequestBody DetalleNotaEntrada datos) {
+    public DetalleNotaEntrada actualizar(@PathVariable Integer id, @RequestBody DetalleNotaEntradaDTO dto) {
         DetalleNotaEntrada detalle = detalleNotaEntradaRepository.findById(id).orElse(null);
         if (detalle != null) {
-            detalle.setCostoUnitario(datos.getCostoUnitario());
-            detalle.setCantidad(datos.getCantidad());
-            detalle.setNotaEntrada(datos.getNotaEntrada());
-            detalle.setProducto(datos.getProducto());
+            NotaEntrada notaEntrada = notaEntradaRepository.findById(dto.notaEntradaId)
+                    .orElseThrow(() -> new RuntimeException("NotaEntrada no encontrada"));
+
+            Producto producto = productoRepository.findById(dto.productoId)
+                    .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+
+            detalle.setNotaEntrada(notaEntrada);
+            detalle.setProducto(producto);
+            detalle.setCantidad(dto.cantidad);
+            detalle.setCostoUnitario(dto.costoUnitario);
+
             return detalleNotaEntradaRepository.save(detalle);
         }
         return null;
