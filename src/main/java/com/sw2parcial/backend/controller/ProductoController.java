@@ -49,4 +49,9 @@ public class ProductoController {
     public void eliminar(@PathVariable Integer id) {
         productoRepository.deleteById(id);
     }
+
+    @GetMapping("/tipo/{nombre}")
+    public List<Producto> obtenerPorTipo(@PathVariable String nombre) {
+        return productoRepository.findByTipoNombre(nombre);
+    }
 }
