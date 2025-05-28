@@ -1,7 +1,10 @@
 package com.sw2parcial.backend.controller;
 
 import com.sw2parcial.backend.model.Producto;
+import com.sw2parcial.backend.model.Tipo;
 import com.sw2parcial.backend.repository.ProductoRepository;
+import com.sw2parcial.backend.repository.TipoRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,13 +18,26 @@ public class ProductoController {
     @Autowired
     private ProductoRepository productoRepository;
 
+    @Autowired
+    private TipoRepository tipoRepository;
+
     @GetMapping
     public List<Producto> listarTodos() {
         return productoRepository.findAll();
     }
+    /* 
+    @PostMapping
+    public Producto crear(@RequestBody Producto producto) {
+        return productoRepository.save(producto);
+    }*/
 
     @PostMapping
     public Producto crear(@RequestBody Producto producto) {
+        Integer tipoId = producto.getTipo().getId();
+        Tipo tipoReal = tipoRepository.findById(tipoId)
+                .orElseThrow(() -> new RuntimeException("Tipo no encontrado con id: " + tipoId));
+        producto.setTipo(tipoReal);
+
         return productoRepository.save(producto);
     }
 
@@ -54,4 +70,5 @@ public class ProductoController {
     public List<Producto> obtenerPorTipo(@PathVariable String nombre) {
         return productoRepository.findByTipoNombre(nombre);
     }
+
 }
