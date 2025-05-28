@@ -31,7 +31,7 @@ public class DetalleVenta {
 
     public DetalleVenta(Integer cantidad, Float precioUnitario, Venta venta, Producto producto) {
         this.cantidad = cantidad;
-        this.precioUnitario = precioUnitario;
+        this.precioUnitario = precioUnitario; //SUBTOTAL
         this.venta = venta;
         this.producto = producto;
     }
