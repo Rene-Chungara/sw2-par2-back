@@ -26,6 +26,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/tipos/**").authenticated()
                 .requestMatchers("/api/productos/**").authenticated()
                 .requestMatchers("/api/ventas/**").authenticated()
+                .requestMatchers("/api/precios/**").authenticated()
                 .anyRequest().authenticated()
             )
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
