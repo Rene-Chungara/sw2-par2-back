@@ -6,9 +6,20 @@ import com.sw2parcial.backend.repository.ProductoRepository;
 import com.sw2parcial.backend.repository.TipoRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/productos")
@@ -25,11 +36,6 @@ public class ProductoController {
     public List<Producto> listarTodos() {
         return productoRepository.findAll();
     }
-    /* 
-    @PostMapping
-    public Producto crear(@RequestBody Producto producto) {
-        return productoRepository.save(producto);
-    }*/
 
     @PostMapping
     public Producto crear(@RequestBody Producto producto) {
@@ -65,10 +71,31 @@ public class ProductoController {
     public void eliminar(@PathVariable Integer id) {
         productoRepository.deleteById(id);
     }
-
-    @GetMapping("/tipo/{nombre}")
-    public List<Producto> obtenerPorTipo(@PathVariable String nombre) {
-        return productoRepository.findByTipoNombre(nombre);
+    // Filtro por nombre y tipo
+    @GetMapping("/buscar/nombre/{nombre}")
+    public List<Producto> buscarPorNombre(@PathVariable String nombre) {
+        return productoRepository.findByNombreContainingIgnoreCase(nombre);
+    }
+    @GetMapping("/buscar/tipo/{nombre}")
+    public List<Producto> buscarPorTipo(@PathVariable String nombre) {
+        return productoRepository.findByTipoNombreContainingIgnoreCase(nombre);
     }
 
+    @PostMapping("/upload")
+    public ResponseEntity<Map<String, String>> subirImagen(@RequestParam("file") MultipartFile file) {
+        try {
+            String nombreArchivo = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+            Path ruta = Paths.get("uploads").resolve(nombreArchivo).toAbsolutePath();
+            Files.copy(file.getInputStream(), ruta, StandardCopyOption.REPLACE_EXISTING);
+
+            Map<String, String> respuesta = new HashMap<>();
+            respuesta.put("ruta", "/uploads/" + nombreArchivo); // Importante que comience con "/"
+            return ResponseEntity.ok(respuesta);
+
+        } catch (IOException e) {
+            Map<String, String> error = new HashMap<>();
+            error.put("error", "Error al subir imagen");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+        }
+    }
 }
