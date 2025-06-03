@@ -18,19 +18,38 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable())
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers("/api/roles/**", "/api/permisos/**").hasRole("ADMIN")
-                .requestMatchers("/api/tipos/**").authenticated()
-                .requestMatchers("/api/productos/**").authenticated()
-                .requestMatchers("/api/ventas/**").authenticated()
-                .requestMatchers("/api/precios/**").authenticated()
-                .anyRequest().authenticated()
-            )
-            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                .csrf(csrf -> csrf.disable())
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(auth -> auth
+                        .anyRequest().permitAll() // Permitir TODO
+                )
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
+
+    /*
+     * @Bean
+     * public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+     * http
+     * .csrf(csrf -> csrf.disable())
+     * .sessionManagement(session ->
+     * session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+     * .authorizeHttpRequests(auth -> auth
+     * .requestMatchers("/api/auth/**").permitAll()
+     * .requestMatchers("/graphql", "/graphiql", "/vendor/**", "/playground",
+     * "/voyager").permitAll() // GraphQL sin auth
+     * .requestMatchers("/api/roles/**", "/api/permisos/**").hasRole("ADMIN")
+     * .requestMatchers("/api/tipos/**").authenticated()
+     * .requestMatchers("/api/productos/**").authenticated()
+     * .requestMatchers("/api/ventas/**").authenticated()
+     * .requestMatchers("/api/precios/**").authenticated()
+     * .anyRequest().authenticated()
+     * )
+     * .addFilterBefore(jwtAuthenticationFilter,
+     * UsernamePasswordAuthenticationFilter.class);
+     * 
+     * return http.build();
+     * }
+     */
 }
