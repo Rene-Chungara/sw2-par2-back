@@ -1,0 +1,56 @@
+type Tipo {
+  id: ID!
+  nombre: String!
+  descripcion: String
+}
+
+type Query {
+  listarTipos: [Tipo!]!
+  obtenerTipo(id: ID!): Tipo
+}
+
+type Mutation {
+  crearTipo(nombre: String!, descripcion: String): Tipo
+  actualizarTipo(id: ID!, nombre: String!, descripcion: String): Tipo
+  eliminarTipo(id: ID!): Boolean
+}
+
+
+type Producto {
+  id: ID!
+  nombre: String!
+  precioVenta: Float!
+  imagen: String
+  stock: Int
+  descripcion: String
+  tipo: Tipo!
+}
+
+extend type Query {
+  listarProductos: [Producto!]!
+  obtenerProducto(id: ID!): Producto
+  productosPorTipo(nombre: String!): [Producto!]!
+}
+
+extend type Mutation {
+  crearProducto(
+    nombre: String!
+    precioVenta: Float!
+    imagen: String
+    stock: Int
+    descripcion: String
+    tipoId: ID!
+  ): Producto
+
+  actualizarProducto(
+    id: ID!
+    nombre: String!
+    precioVenta: Float!
+    imagen: String
+    stock: Int
+    descripcion: String
+    tipoId: ID!
+  ): Producto
+
+  eliminarProducto(id: ID!): Boolean
+}
