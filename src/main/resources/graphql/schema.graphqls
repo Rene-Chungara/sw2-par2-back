@@ -54,3 +54,189 @@ extend type Mutation {
 
   eliminarProducto(id: ID!): Boolean
 }
+
+type Permiso {
+  id: ID!
+  nombre: String!
+}
+
+extend type Query {
+  listarPermisos: [Permiso!]!
+  obtenerPermiso(id: ID!): Permiso
+}
+
+extend type Mutation {
+  crearPermiso(nombre: String!): Permiso
+  actualizarPermiso(id: ID!, nombre: String!): Permiso
+  eliminarPermiso(id: ID!): Boolean
+}
+
+type Rol {
+  id: ID!
+  nombre: String!
+}
+
+extend type Query {
+  listarRoles: [Rol!]!
+  obtenerRol(id: ID!): Rol
+}
+
+extend type Mutation {
+  crearRol(nombre: String!): Rol
+  actualizarRol(id: ID!, nombre: String!): Rol
+  eliminarRol(id: ID!): Boolean
+}
+
+type RolPermiso {
+  id: ID!
+  rol: Rol!
+  permiso: Permiso!
+}
+
+extend type Query {
+  listarRolPermisos: [RolPermiso!]!
+  obtenerRolPermiso(id: ID!): RolPermiso
+}
+
+extend type Mutation {
+  crearRolPermiso(rolId: ID!, permisoId: ID!): RolPermiso
+  eliminarRolPermiso(id: ID!): Boolean
+}
+
+type Usuario {
+  id: ID!
+  ci: String!
+  nombre: String!
+  telefono: String
+  direccion: String
+  genero: String
+  correo: String!
+  contrasena: String!
+  rol: Rol!
+}
+
+extend type Query {
+  listarUsuarios: [Usuario!]!
+  obtenerUsuario(id: ID!): Usuario
+  buscarUsuarioPorCorreo(correo: String!): Usuario
+}
+
+extend type Mutation {
+  crearUsuario(
+    ci: String!
+    nombre: String!
+    telefono: String
+    direccion: String
+    genero: String
+    correo: String!
+    contrasena: String!
+    rolId: ID!
+  ): Usuario
+
+  actualizarUsuario(
+    id: ID!
+    ci: String!
+    nombre: String!
+    telefono: String
+    direccion: String
+    genero: String
+    correo: String!
+    contrasena: String!
+    rolId: ID!
+  ): Usuario
+
+  eliminarUsuario(id: ID!): Boolean
+}
+
+type Proveedor {
+  id: ID!
+  nombre: String!
+  origen: String
+}
+
+extend type Query {
+  listarProveedores: [Proveedor!]!
+  obtenerProveedor(id: ID!): Proveedor
+  buscarProveedorPorNombre(nombre: String!): [Proveedor!]!
+  buscarProveedorPorOrigen(origen: String!): [Proveedor!]!
+
+}
+
+extend type Mutation {
+  crearProveedor(nombre: String!, origen: String): Proveedor
+  actualizarProveedor(id: ID!, nombre: String!, origen: String): Proveedor
+  eliminarProveedor(id: ID!): Boolean
+}
+
+type NotaEntrada {
+  id: ID!
+  fecha: String!
+  lote: String
+  costoTotal: Float
+  proveedor: Proveedor!
+}
+
+type DetalleNotaEntrada {
+  id: ID!
+  cantidad: Int!
+  costoUnitario: Float
+  producto: Producto!
+  notaEntrada: NotaEntrada!
+}
+
+extend type Query {
+  listarNotasEntrada: [NotaEntrada!]!
+  obtenerNotaEntrada(id: ID!): NotaEntrada
+  buscarNotaEntradaPorProveedor(nombre: String!): [NotaEntrada!]!
+
+  listarDetallesNotaEntrada: [DetalleNotaEntrada!]!
+  obtenerDetalleNotaEntrada(id: ID!): DetalleNotaEntrada
+  listarDetallesPorNota(notaEntradaId: ID!): [DetalleNotaEntrada!]!
+}
+
+extend type Mutation {
+  crearNotaEntrada(fecha: String!, lote: String, costoTotal: Float, proveedorId: ID!): NotaEntrada
+  actualizarNotaEntrada(id: ID!, fecha: String!, lote: String, costoTotal: Float, proveedorId: ID!): NotaEntrada
+  eliminarNotaEntrada(id: ID!): Boolean
+
+  crearDetalleNotaEntrada(productoId: ID!, cantidad: Int!, costoUnitario: Float, notaEntradaId: ID!): DetalleNotaEntrada
+  actualizarDetalleNotaEntrada(id: ID!, productoId: ID!, cantidad: Int!, costoUnitario: Float!, notaEntradaId: ID!): DetalleNotaEntrada
+  eliminarDetalleNotaEntrada(id: ID!): Boolean
+}
+
+type Venta {
+  id: ID!
+  fechaVenta: String!
+  ventaTotal: Float!
+  estado: String!
+  canalVenta: String!
+  detalles: [DetalleVenta!]!
+}
+
+type DetalleVenta {
+  id: ID!
+  cantidad: Int!
+  precioUnitario: Float!
+  producto: Producto!
+  venta: Venta!
+}
+
+extend type Query {
+  listarVentas: [Venta!]!
+  obtenerVenta(id: ID!): Venta
+
+  listarDetallesVenta: [DetalleVenta!]!
+  obtenerDetalleVenta(id: ID!): DetalleVenta
+  listarDetallesPorVenta(ventaId: ID!): [DetalleVenta!]!
+}
+
+extend type Mutation {
+  crearVenta(fechaVenta: String!, ventaTotal: Float!, estado: String!, canalVenta: String!): Venta
+  actualizarVenta(id: ID!, fechaVenta: String!, ventaTotal: Float!, estado: String!, canalVenta: String!): Venta
+  eliminarVenta(id: ID!): Boolean
+
+  crearDetalleVenta(productoId: ID!, cantidad: Int!, precioUnitario: Float!, ventaId: ID!): DetalleVenta
+  actualizarDetalleVenta(id: ID!, productoId: ID!, cantidad: Int!, precioUnitario: Float!, ventaId: ID!): DetalleVenta
+  eliminarDetalleVenta(id: ID!): Boolean
+}
+
