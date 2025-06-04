@@ -204,13 +204,17 @@ extend type Mutation {
   eliminarDetalleNotaEntrada(id: ID!): Boolean
 }
 
+
+
+# TIPOS DE VENTA Y DETALLE VENTA
 type Venta {
   id: ID!
   fechaVenta: String!
   ventaTotal: Float!
   estado: String!
   canalVenta: String!
-  detalles: [DetalleVenta!]!
+  usuario: Usuario!
+  detalleVentas: [DetalleVenta!]!
 }
 
 type DetalleVenta {
@@ -219,24 +223,80 @@ type DetalleVenta {
   precioUnitario: Float!
   producto: Producto!
   venta: Venta!
+  subtotal: Float!
 }
 
+# INPUT TYPES
+input DetalleVentaInput {
+  productoId: Int!
+  cantidad: Int!
+  precioUnitario: Float!
+}
+
+# QUERIES PARA VENTAS
 extend type Query {
+  # Queries básicas de ventas
   listarVentas: [Venta!]!
-  obtenerVenta(id: ID!): Venta
-
+  obtenerVenta(id: Int!): Venta
+  obtenerVentaConDetalles(id: Int!): Venta
+  
+  # Queries de búsqueda de ventas
+  ventasPorEstado(estado: String!): [Venta!]!
+  ventasPorFecha(fecha: String!): [Venta!]!
+  ventasDelDia: [Venta!]!
+  ventasEntreFechas(fechaInicio: String!, fechaFin: String!): [Venta!]!
+  
+  # Queries para detalles de venta
   listarDetallesVenta: [DetalleVenta!]!
-  obtenerDetalleVenta(id: ID!): DetalleVenta
-  listarDetallesPorVenta(ventaId: ID!): [DetalleVenta!]!
+  obtenerDetalleVenta(id: Int!): DetalleVenta
+  listarDetallesPorVenta(ventaId: Int!): [DetalleVenta!]!
 }
 
+# MUTATIONS PARA VENTAS
 extend type Mutation {
-  crearVenta(fechaVenta: String!, ventaTotal: Float!, estado: String!, canalVenta: String!): Venta
-  actualizarVenta(id: ID!, fechaVenta: String!, ventaTotal: Float!, estado: String!, canalVenta: String!): Venta
-  eliminarVenta(id: ID!): Boolean
-
-  crearDetalleVenta(productoId: ID!, cantidad: Int!, precioUnitario: Float!, ventaId: ID!): DetalleVenta
-  actualizarDetalleVenta(id: ID!, productoId: ID!, cantidad: Int!, precioUnitario: Float!, ventaId: ID!): DetalleVenta
-  eliminarDetalleVenta(id: ID!): Boolean
+  # Mutations para ventas
+  crearVenta(
+    usuarioId: Int!
+    fechaVenta: String
+    estado: String
+    canalVenta: String!
+  ): Venta
+  
+  crearVentaCompleta(
+    usuarioId: Int!
+    fechaVenta: String
+    estado: String
+    canalVenta: String!
+    detalles: [DetalleVentaInput!]!
+  ): Venta
+  
+  actualizarVenta(
+    id: Int!
+    usuarioId: Int
+    fechaVenta: String
+    ventaTotal: Float
+    estado: String
+    canalVenta: String
+  ): Venta
+  
+  cambiarEstadoVenta(id: Int!, nuevoEstado: String!): Venta
+  eliminarVenta(id: Int!): Boolean
+  
+  # Mutations para detalles de venta
+  crearDetalleVenta(
+    productoId: Int!
+    cantidad: Int!
+    precioUnitario: Float!
+    ventaId: Int!
+  ): DetalleVenta
+  
+  actualizarDetalleVenta(
+    id: Int!
+    productoId: Int
+    cantidad: Int
+    precioUnitario: Float
+    ventaId: Int
+  ): DetalleVenta
+  
+  eliminarDetalleVenta(id: Int!): Boolean
 }
-
