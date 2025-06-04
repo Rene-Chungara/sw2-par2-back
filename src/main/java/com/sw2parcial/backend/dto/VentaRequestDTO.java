@@ -9,6 +9,7 @@ public class VentaRequestDTO {
     private String estado;
     private String canalVenta;
     private LocalDate fechaVenta;
+    private Float ventaTotal;
     private List<DetalleVentaDTO> detalles;
 
     // Constructores
@@ -63,6 +64,15 @@ public class VentaRequestDTO {
     public void setDetalles(List<DetalleVentaDTO> detalles) {
         this.detalles = detalles;
     }
+
+    public Float getVentaTotal() {
+        return ventaTotal;
+    }
+
+    public void setVentaTotal(Float ventaTotal) {
+        this.ventaTotal = ventaTotal;
+    }
+
 
     // Clase interna para los detalles
     public static class DetalleVentaDTO {
