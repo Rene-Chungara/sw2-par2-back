@@ -10,6 +10,8 @@ import com.sw2parcial.backend.repository.RolPermisoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.*;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 
@@ -35,6 +37,7 @@ public class RolPermisoGraphQLController {
         return rolPermisoRepository.findById(id).orElse(null);
     }
 
+    @Transactional
     @MutationMapping
     public RolPermiso crearRolPermiso(@Argument Integer rolId, @Argument Integer permisoId) {
         Rol rol = rolRepository.findById(rolId).orElseThrow();
