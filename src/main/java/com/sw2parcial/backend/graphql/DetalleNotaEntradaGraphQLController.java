@@ -53,6 +53,11 @@ public class DetalleNotaEntradaGraphQLController {
         detalle.setCantidad(cantidad);
         detalle.setCostoUnitario(costoUnitario);
         detalle.setNotaEntrada(nota);
+
+        // Aumentar el stock del producto
+        producto.setStock(producto.getStock() + cantidad);
+        productoRepository.save(producto);
+
         return detalleRepository.save(detalle);
     }
 
