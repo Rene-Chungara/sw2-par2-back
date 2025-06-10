@@ -41,4 +41,8 @@ public interface VentaRepository extends JpaRepository<Venta, Integer> {
     //List<Venta> findVentasDelDia();
     @Query("SELECT v FROM Venta v WHERE v.fechaVenta = CURRENT_DATE")
     List<Venta> findVentasDelDia(); 
+
+    @Query("SELECT v FROM Venta v WHERE v.usuario.telefono = :telefono")
+    List<Venta> findByUsuarioTelefono(@Param("telefono") String telefono);
+
 }
