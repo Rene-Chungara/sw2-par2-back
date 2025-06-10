@@ -373,4 +373,10 @@ public class VentaGraphQLController {
             this.precioUnitario = precioUnitario;
         }
     }
+
+    @QueryMapping
+    public List<Venta> ventasPorTelefono(@Argument String telefono) {
+        return ventaRepository.findByUsuarioTelefono(telefono);
+    }
+
 }

@@ -245,6 +245,7 @@ extend type Query {
   ventasPorFecha(fecha: String!): [Venta!]!
   ventasDelDia: [Venta!]!
   ventasEntreFechas(fechaInicio: String!, fechaFin: String!): [Venta!]!
+  ventasPorTelefono(telefono: String!): [Venta!]!
   
   # Queries para detalles de venta
   listarDetallesVenta: [DetalleVenta!]!
@@ -300,3 +301,4 @@ extend type Mutation {
   
   eliminarDetalleVenta(id: Int!): Boolean
 }
+

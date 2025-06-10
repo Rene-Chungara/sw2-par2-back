@@ -17,7 +17,6 @@ import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
 
-import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 import java.net.http.*;
 import java.net.URI;
@@ -116,7 +115,7 @@ public class NotaEntradaGraphQLController {
         return true;
     }
 
-    private final WebClient webClient = WebClient.create("http://localhost:3000"); // o tu IP real
+    private final WebClient webClient = WebClient.create("http://localhost:3000"); 
 
     private void registrarEnBlockchain(NotaEntrada nota) {
         NotaEntradaBlockchainDTO dto = new NotaEntradaBlockchainDTO();
@@ -133,3 +132,5 @@ public class NotaEntradaGraphQLController {
                 .subscribe(); // también puedes manejar la respuesta si quieres guardar el QR
     }
 }
+
+

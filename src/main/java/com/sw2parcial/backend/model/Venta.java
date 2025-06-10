@@ -29,7 +29,7 @@ public class Venta {
     private Usuario usuario;
 
     @OneToMany(mappedBy = "venta", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonManagedReference  // <- Aquí
+    @JsonManagedReference
     private List<DetalleVenta> detalleVentas;
 
     // Constructores
