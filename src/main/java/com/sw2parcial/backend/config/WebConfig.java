@@ -9,14 +9,27 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry
-            .addResourceHandler("/uploads/**")
-            .addResourceLocations("file:uploads/");
+                .addResourceHandler("/uploads/**")
+                .addResourceLocations("file:uploads/");
     }
 
+    /*
+     * @Override
+     * public void addCorsMappings(CorsRegistry registry) {
+     * registry.addMapping("/graphql")
+     * .allowedOrigins("*")
+     * .allowedMethods("GET", "POST")
+     * .allowedHeaders("*")
+     * .allowCredentials(true);
+     * }
+     */
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/graphql")
-                .allowedOrigins("http://localhost:4200")
+                .allowedOrigins(
+                        "http://localhost:4200",
+                        "https://scintillating-piroshki-354cda.netlify.app",
+                        "https://sw2-par2-front.vercel.app")
                 .allowedMethods("GET", "POST")
                 .allowedHeaders("*")
                 .allowCredentials(true);

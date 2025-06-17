@@ -74,7 +74,7 @@ public class NotaEntradaGraphQLController {
                     saved.getFecha().toString());
 
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("http://localhost:4000/notas/registrar"))
+                    .uri(URI.create("http://blockchain-service:4000/notas/registrar"))
                     .header("Content-Type", "application/json")
                     .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
                     .build();
