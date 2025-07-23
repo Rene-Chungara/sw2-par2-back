@@ -4,6 +4,7 @@ import com.sw2parcial.backend.model.Venta;
 import com.sw2parcial.backend.model.DetalleVenta;
 import com.sw2parcial.backend.model.Usuario;
 import com.sw2parcial.backend.model.Producto;
+import com.sw2parcial.backend.model.ReporteVentaPorTipo;
 import com.sw2parcial.backend.service.VentaService;
 import com.sw2parcial.backend.repository.VentaRepository;
 import com.sw2parcial.backend.repository.DetalleVentaRepository;
@@ -377,6 +378,11 @@ public class VentaGraphQLController {
     @QueryMapping
     public List<Venta> ventasPorTelefono(@Argument String telefono) {
         return ventaRepository.findByUsuarioTelefono(telefono);
+    }
+
+    @QueryMapping
+    public List<ReporteVentaPorTipo> reporteVentasPorTipo() {
+        return ventaService.reporteVentasPorTipoProducto();
     }
 
 }

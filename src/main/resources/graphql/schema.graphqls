@@ -7,6 +7,7 @@ type Tipo {
 type Query {
   listarTipos: [Tipo!]!
   obtenerTipo(id: ID!): Tipo
+  reporteVentasPorTipo: [ReporteVentaPorTipo]
 }
 
 type Mutation {
@@ -24,12 +25,15 @@ type Producto {
   stock: Int
   descripcion: String
   tipo: Tipo!
+  color: String
 }
 
 extend type Query {
   listarProductos: [Producto!]!
   obtenerProducto(id: ID!): Producto
-  productosPorTipo(nombre: String!): [Producto!]!
+  reportePorTipoProducto: [ReporteVentaPorTipo]
+  reporteProductosMasVendidos: [ReporteVentaPorTipo]
+  reporteComprasPorCanal: [ReporteVentaPorTipo]
 }
 
 extend type Mutation {
@@ -302,3 +306,8 @@ extend type Mutation {
   eliminarDetalleVenta(id: Int!): Boolean
 }
 
+type ReporteVentaPorTipo {
+    tipoNombre: String
+    cantidadVentas: Int
+    totalGenerado: Float
+}

@@ -18,10 +18,9 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addMapping("/graphql")
                 .allowedOrigins(
                     "http://localhost:4200",
-                    "https://scintillating-piroshki-354cda.netlify.app",
                     "https://sw2-par2-front.vercel.app/"
                 )
-                .allowedMethods("GET", "POST")
+                .allowedMethods("GET", "POST", "OPTIONS")
                 .allowedHeaders("*")
                 .allowCredentials(true);
     }

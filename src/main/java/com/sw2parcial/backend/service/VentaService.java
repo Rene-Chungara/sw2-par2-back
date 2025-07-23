@@ -4,6 +4,7 @@ import com.sw2parcial.backend.model.Venta;
 import com.sw2parcial.backend.model.DetalleVenta;
 import com.sw2parcial.backend.model.Usuario;
 import com.sw2parcial.backend.model.Producto;
+import com.sw2parcial.backend.model.ReporteVentaPorTipo;
 import com.sw2parcial.backend.repository.VentaRepository;
 import com.sw2parcial.backend.repository.DetalleVentaRepository;
 import com.sw2parcial.backend.repository.ProductoRepository;
@@ -163,5 +164,9 @@ public class VentaService {
             producto.setStock(producto.getStock() + cantidadARestaurar);
             productoRepository.save(producto);
         }
+    }
+
+    public List<ReporteVentaPorTipo> reporteVentasPorTipoProducto() {
+        return ventaRepository.obtenerReportePorTipoProducto();
     }
 }
