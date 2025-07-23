@@ -32,6 +32,7 @@ public class Venta {
     @JsonManagedReference
     private List<DetalleVenta> detalleVentas;
 
+
     // Constructores
     public Venta() {
     }

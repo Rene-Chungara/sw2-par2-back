@@ -1,6 +1,7 @@
 package com.sw2parcial.backend.repository;
 
 import com.sw2parcial.backend.model.Venta;
+import com.sw2parcial.backend.model.ReporteVentaPorTipo;
 import com.sw2parcial.backend.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -45,4 +46,8 @@ public interface VentaRepository extends JpaRepository<Venta, Integer> {
     @Query("SELECT v FROM Venta v WHERE v.usuario.telefono = :telefono")
     List<Venta> findByUsuarioTelefono(@Param("telefono") String telefono);
 
+    @Query("SELECT new com.sw2parcial.backend.model.ReporteVentaPorTipo(t.nombre, COUNT(v), SUM(v.ventaTotal)) " +
+       "FROM Venta v JOIN v.detalleVentas dv JOIN dv.producto p JOIN p.tipo t " +
+       "GROUP BY t.nombre")
+    List<ReporteVentaPorTipo> obtenerReportePorTipoProducto();
 }
