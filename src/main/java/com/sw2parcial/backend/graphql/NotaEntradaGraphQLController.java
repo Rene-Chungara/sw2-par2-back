@@ -74,7 +74,7 @@ public class NotaEntradaGraphQLController {
                     saved.getFecha().toString());
 
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("http://a35ff98ba79d145fdbde8ee6aafee109-1581426069.sa-east-1.elb.amazonaws.com:4000/notas/registrar"))
+                    .uri(URI.create("https://microservicio-blockchain-production.up.railway.app/notas/registrar"))
                     .header("Content-Type", "application/json")
                     .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
                     .build();
@@ -115,7 +115,7 @@ public class NotaEntradaGraphQLController {
         return true;
     }
 
-    private final WebClient webClient = WebClient.create("http://localhost:3000"); 
+    private final WebClient webClient = WebClient.create("https://microservicio-blockchain-production.up.railway.app"); 
 
     private void registrarEnBlockchain(NotaEntrada nota) {
         NotaEntradaBlockchainDTO dto = new NotaEntradaBlockchainDTO();
